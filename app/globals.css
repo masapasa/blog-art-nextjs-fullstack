@@ -6,6 +6,30 @@
 @layer base {
   body {
     @apply max-w-2xl mx-auto px-4;
-    @apply dark:bg-black dark:text-gray-100 bg-gray-50 text-gray-900
+    @apply dark:bg-black dark:text-gray-100 bg-gray-200 text-gray-900
   }
+}
+
+.loader {
+	border-top-color: #3498db;
+	-webkit-animation: spinner 1.5s linear infinite;
+	animation: spinner 1.5s linear infinite;
+}
+
+@-webkit-keyframes spinner {
+	0% {
+		-webkit-transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+	}
+}
+
+@keyframes spinner {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }

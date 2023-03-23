@@ -8,7 +8,6 @@ export const ThemeToggler = () => {
   const { theme, setTheme, systemTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;
   const [mounted, setMounted] = useState<boolean>(false);
-  console.log(currentTheme);
 
   useEffect(() => {
     setMounted(true);

@@ -6,8 +6,13 @@ import { Session } from "next-auth";
 import { getSorterName } from "@/utils/getSortname";
 import Link from "next/link";
 import classNames from "@/utils/customClassname";
+import { signOut } from "next-auth/react";
+import Image from "next/image";
 
 const Profile: React.FC<{ session: Session | null }> = ({ session }) => {
+  if (!session) {
+    return null;
+  }
   return (
     <li className="flex gap-8 item-center">
       <Menu as="div" className="relative inline-block text-left">
@@ -44,27 +49,22 @@ const Profile: React.FC<{ session: Session | null }> = ({ session }) => {
               <Menu.Item>
                 {({ active }) => (
                   <Link
-                    href={"/profile"}
+                    href={"/dashboard"}
                     className={classNames(
                       active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "px-4 py-2 text-sm flex gap-2 items-center"
+                      "px-4 py-2 text-sm flex gap-2 items-center",
+                      "border border-spacing-4"
                     )}
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                    </svg>
-
+                    <Image
+                      src={session?.user?.image || ""}
+                      width="40"
+                      style={{
+                        borderRadius: "50%",
+                      }}
+                      alt="Profile Image"
+                      height="40"
+                    />
                     {getSorterName(session?.user?.name || "")}
                   </Link>
                 )}
@@ -74,6 +74,7 @@ const Profile: React.FC<{ session: Session | null }> = ({ session }) => {
                   return (
                     <button
                       type="submit"
+                      onClick={() => signOut()}
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                         " w-full text-left px-4 py-2 text-sm flex gap-2 items-center"
