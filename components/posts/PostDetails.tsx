@@ -2,7 +2,6 @@
 
 import { PostList } from "@/types/post-types";
 import { useQuery } from "@tanstack/react-query";
-import { url } from "inspector";
 import React from "react";
 import axios from "axios";
 import PageLoader from "../PageLoader";
@@ -39,9 +38,28 @@ const PostDetails = ({ slug }: { slug: string }) => {
               <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
                 {data.title}
               </h5>
+              <AddComment id={data.id || ""} />
             </div>
           </div>
-
+          <p>{data.content}</p>
+          {data.pictures && data.pictures.length > 0 && (
+            <ul>
+              {data.pictures.map((picture) => (
+                <li key={picture}>
+                  <img src={picture} alt="Picture" />
+                </li>
+              ))}
+            </ul>
+          )}
+          {data.videos && data.videos.length > 0 && (
+            <ul>
+              {data.videos.map((video) => (
+                <li key={video}>
+                  <video src={video} controls />
+                </li>
+              ))}
+            </ul>
+          )}
           {data.Comment &&
             data.Comment.map((ele) => (
               <>
@@ -64,16 +82,12 @@ const PostDetails = ({ slug }: { slug: string }) => {
                         {ele.content}
                       </p>
                     </div>
-                    <div className="inline-flex text-base font-semibold text-gray-900 dark:text-white">
-                      $320
-                    </div>
+                    <div className="inline-flex text-base font-semibold text-gray-900 dark:text-white">$320</div>
                   </div>
                 </div>
               </>
             ))}
-          <p className="text-sm text-primary font-bold my-3">
-            {data.Comment?.length} Comments.
-          </p>
+          <p className="text-sm text-primary font-bold my-3">{data.Comment?.length} Comments.</p>
           <AddComment id={data.id || ""} />
         </div>
       )}

@@ -1,4 +1,4 @@
-import { status400, status403, status201, status401 } from './../../../utils/sendAPIresponse';
+import { status400, status403, status201, status401 } from "./../../../utils/sendAPIresponse";
 import client from "@/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
@@ -10,10 +10,7 @@ import { authOptions } from "../auth/[...nextauth]";
  * @param response
  * @returns
  */
-export default async function handler(
-  request: NextApiRequest,
-  response: NextApiResponse
-) {
+export default async function handler(request: NextApiRequest, response: NextApiResponse) {
   if (request.method === "POST") {
     const session = await getServerSession(request, response, authOptions);
 
@@ -22,6 +19,9 @@ export default async function handler(
     }
 
     const title = request.body.title;
+    const content = request.body.content;
+    const pictures = request.body.pictures;
+    const videos = request.body.videos;
 
     if (title.length > 500) {
       return status400(response, "Invalid length provided");
@@ -37,7 +37,10 @@ export default async function handler(
       const result = await client.post.create({
         data: {
           title,
-          authorId: user?.id || '',
+          content,
+          pictures,
+          videos,
+          authorId: user?.id || "",
         },
       });
       return status201(response, result);
@@ -48,6 +51,6 @@ export default async function handler(
       });
     }
   } else {
-    return status400(response, 'Bad Request');
+    return status400(response, "Bad Request");
   }
 }

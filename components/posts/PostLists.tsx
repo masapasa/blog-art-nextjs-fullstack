@@ -17,6 +17,9 @@ interface RCProps extends PostList {
 const PostLists: React.FC<RCProps> = ({
   user,
   title,
+  content,
+  pictures,
+  videos,
   id,
   isAuthenticated,
   _count: { Comment },
@@ -69,31 +72,41 @@ const PostLists: React.FC<RCProps> = ({
             />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-              {user.name}
-            </p>
-            <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-              {user.email}
-            </p>
+            <p className="text-sm font-medium text-gray-900 truncate dark:text-white">{user.name}</p>
+            <p className="text-sm text-gray-500 truncate dark:text-gray-400">{user.email}</p>
           </div>
-          <div className="inline-flex text-base font-semibold text-gray-900 dark:text-white">
-            $320
-          </div>
+          <div className="inline-flex text-base font-semibold text-gray-900 dark:text-white">$320</div>
         </div>
         <div className="flex my-6 justify-between">
-          {title}
           <Link href={`/posts/${id}`}>
             <span className="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">
-              {Comment} Comments
+              {title}
             </span>
           </Link>
+          {Comment} Comments
         </div>
+        <p>{content}</p>
+        {pictures && pictures.length > 0 && (
+          <ul>
+            {pictures.map((picture) => (
+              <li key={picture}>
+                <img src={picture} alt="Picture" />
+              </li>
+            ))}
+          </ul>
+        )}
+        {videos && videos.length > 0 && (
+          <ul>
+            {videos.map((video) => (
+              <li key={video}>
+                <video src={video} controls />
+              </li>
+            ))}
+          </ul>
+        )}
         <div className="flex gap-4 cursor-pointer justify-end">
           {isAuthenticated && (
-            <Button
-              onClick={() => handleAlertOpen()}
-              className="hover:ring-0 text-red-500 text-sm"
-            >
+            <Button onClick={() => handleAlertOpen()} className="hover:ring-0 text-red-500 text-sm">
               Delete
             </Button>
           )}

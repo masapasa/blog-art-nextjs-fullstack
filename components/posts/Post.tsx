@@ -1,5 +1,4 @@
-"use client";
-import { PostList } from "@/types/post-types";
+"use client";import { PostList } from "@/types/post-types";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import SkeletonLoading from "../SkeletonLoading";
@@ -26,12 +25,28 @@ export const Post = () => {
           data &&
           data.length > 0 &&
           data.map((post: PostList) => (
-            <PostLists
-              handelOpen={() => null}
-              {...post}
-              key={post.id}
-              isAuthenticated={false}
-            />
+            <li key={post.id}>
+              <PostLists handelOpen={() => null} {...post} isAuthenticated={false} />
+              {/* <p>{post.content}</p> */}
+              {post.pictures && post.pictures.length > 0 && (
+                <ul>
+                  {post.pictures.map((picture) => (
+                    <li key={picture}>
+                      <img src={picture} alt="Picture" />
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {post.videos && post.videos.length > 0 && (
+                <ul>
+                  {post.videos.map((video) => (
+                    <li key={video}>
+                      <video src={video} controls />
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
           ))}
       </ul>
     </div>
