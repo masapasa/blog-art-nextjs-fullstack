@@ -10,7 +10,6 @@ const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
-
 const uploadFile = async (file: File) => {
   const fileName = `${Date.now()}-${file.name}`;
   const params = {
@@ -25,10 +24,29 @@ const uploadFile = async (file: File) => {
     const result = await s3.upload(params).promise();
     return result.Location;
   } catch (error) {
-    console.log(error);
+    console.error('Failed to upload file:', error.message);
+    console.error(error.stack);
     throw new Error('Failed to upload file');
   }
 };
+// const uploadFile = async (file: File) => {
+//   const fileName = `${Date.now()}-${file.name}`;
+//   const params = {
+//     Bucket: process.env.AWS_S3_BUCKET_NAME,
+//     Key: fileName,
+//     Body: file,
+//     ContentType: file.type,
+//     ACL: 'public-read'
+//   };
+
+//   try {
+//     const result = await s3.upload(params).promise();
+//     return result.Location;
+//   } catch (error) {
+//     console.log(error);
+//     throw new Error('Failed to upload file');
+//   }
+// };
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
